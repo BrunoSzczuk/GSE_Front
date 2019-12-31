@@ -1,0 +1,12 @@
+<div #originRef
+     (click)="showPopover(originRef)"
+     [class.active]="dropdownOpen"
+     class="user"
+     fxLayout="row"
+     fxLayoutAlign="start center"
+     matRipple>
+  <div class="user-name" fxHide.xs>David Smith</div>
+  <div class="user-image" fxLayout="row" fxLayoutAlign="center center">
+    <mat-icon [icIcon]="icPerson"></mat-icon>
+  </div>
+</div>

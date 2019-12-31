@@ -1,0 +1,25 @@
+:host {
+  background: var(--toolbar-background);
+  box-sizing: border-box;
+  color: var(--toolbar-color);
+  display: block;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.toolbar {
+  height: var(--toolbar-height);
+}
+
+.mat-icon {
+  color: var(--toolbar-icon-color);
+}
+
+.toolbar-button + .toolbar-button {
+  margin-inline-start: var(--padding-8);
+}
+
+a {
+  color: var(--toolbar-color);
+  text-decoration: none;
+}

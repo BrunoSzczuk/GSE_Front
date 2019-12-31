@@ -1,0 +1,53 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@import "@angular/material/_theming.scss";
+// Partials
+@import "_var.scss";
+@import "partials/_mixins.scss";
+@import "partials/_horizontal.scss";
+@import "partials/_vertical.scss";
+@import "partials/_print.scss";
+@import "partials/_overrides.scss";
+@import "partials/_scrollbar.scss";
+@import "partials/plugins/_angular-material.scss";
+@import "partials/plugins/_apexcharts.scss";
+
+// Styles
+@import "partials/styles/_style-dark.scss";
+@import "partials/styles/_style-light.scss";
+
+// Layouts
+@import "partials/layouts/_layout-apollo.scss";
+@import "partials/layouts/_layout-ares.scss";
+@import "partials/layouts/_layout-hermes.scss";
+@import "partials/layouts/_layout-ikaros.scss";
+@import "partials/layouts/_layout-zeus.scss";
+
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core($config);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($vex-theme);
+
+/* You can add global styles to this file, and also import other style files */
+
+html {
+  box-sizing: border-box;
+  font-size: 16px;
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  @apply text-sm font-sans text-black leading-normal antialiased;
+}
+
+div {
+  box-sizing: border-box;
+}

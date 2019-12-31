@@ -1,0 +1,8 @@
+<a [routerLink]="['/']" class="text-hint hover:text-primary-500 trans-ease-out">
+  <ic-icon [icon]="icHome" inline="true" size="20px"></ic-icon>
+</a>
+<ng-container *ngFor="let crumb of crumbs; trackBy: trackByValue">
+  <div class="w-1 h-1 bg-gray-300 rounded-full"></div>
+  <a [routerLink]="[]"
+     class="body-2 text-hint leading-none hover:text-primary-500 no-underline trans-ease-out">{{ crumb }}</a>
+</ng-container>
