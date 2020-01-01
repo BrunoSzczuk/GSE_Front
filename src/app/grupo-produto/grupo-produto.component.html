@@ -18,7 +18,7 @@
                 </h2>
 
                 <div *ngIf="selection.hasValue()" class="mr-4 pr-4 border-r" fxFlex="none">
-                    <button (click)="deleteGrupoProdutos(selection.selected)" color="primary" mat-icon-button
+                    <button (click)="deleteAll(selection.selected)" color="primary" mat-icon-button
                         matTooltip="Deletar Selecionados" type="button">
                         <mat-icon [icIcon]="icDelete"></mat-icon>
                     </button>
@@ -117,7 +117,7 @@
             <mat-icon [icIcon]="icEdit"></mat-icon>
             <span>Modify</span>
         </button>
-        <button (click)="deleteGrupoProduto(customer)" mat-menu-item>
+        <button (click)="delete(customer)" mat-menu-item>
             <mat-icon [icIcon]="icDelete"></mat-icon>
             <span>Delete</span>
         </button>

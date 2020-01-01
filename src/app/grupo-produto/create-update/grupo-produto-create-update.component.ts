@@ -50,7 +50,6 @@ export class GrupoProdutoCreateUpdateComponent implements OnInit {
     } else {
       this.defaults = {} as GrupoProduto;
     }
-    console.log('ativo? ' + this.defaults.stAtivo);
     this.form = this.fb.group({
       id: [this.defaults.id || null],
       cdGrupo: this.defaults.cdGrupo || '',

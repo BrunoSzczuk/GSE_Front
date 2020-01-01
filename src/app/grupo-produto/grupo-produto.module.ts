@@ -5,12 +5,11 @@ import { GrupoProdutoRoutingModule } from './grupo-produto-routing.module';
 import { PageLayoutModule } from 'src/@vex/components/page-layout/page-layout.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BreadcrumbsModule } from 'src/@vex/components/breadcrumbs/breadcrumbs.module';
-import { MatPaginatorModule, MatTableModule, MatSortModule, MatCheckboxModule, MatIconModule, MatButtonModule, MatMenuModule, MatTooltipModule, MatDialogModule } from '@angular/material';
+import { MatPaginatorModule, MatTableModule, MatSortModule, MatCheckboxModule, MatIconModule, MatButtonModule, MatMenuModule, MatTooltipModule, MatDialogModule, MatSnackBarModule } from '@angular/material';
 import { IconModule } from '@visurel/iconify-angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ContainerModule } from 'src/@vex/directives/container/container.module';
 import { GrupoProdutoCreateUpdateModule } from './create-update/grupo-produto-create-update.module';
-import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
@@ -31,6 +30,7 @@ import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform
     MatButtonModule,
     MatMenuModule,
     MatDialogModule,
+    MatSnackBarModule,
     IconModule,
     FormsModule,
     MatTooltipModule,

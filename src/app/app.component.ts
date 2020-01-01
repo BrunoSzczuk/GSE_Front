@@ -72,9 +72,39 @@ export class AppComponent {
             type: 'link',
             label: 'Grupo de Produto',
             route: '/grupo-produto',
-          }
+          },
+          {
+            type: 'link',
+            label: 'Pais',
+            route: '/pais',
+          },
+          {
+            type: 'link',
+            label: 'Estado',
+            route: '/estado',
+          },
+          {
+            type: 'link',
+            label: 'Municipio',
+            route: '/municipio',
+          },
+          {
+            type: 'link',
+            label: 'Marca',
+            route: '/marca',
+          },
+          {
+            type: 'link',
+            label: 'Unidade de Medida',
+            route: '/unidade-medida',
+          },
+          {
+            type: 'link',
+            label: 'Sub Grupo de Produto',
+            route: '/sub-grupo-produto',
+          },
         ]
-      }
+      },
     ];
   }
 }

@@ -1,0 +1,61 @@
+<form (ngSubmit)="save()" [formGroup]="form">
+  <div fxLayout="row" fxLayoutAlign="start center" mat-dialog-title>
+    <mat-icon [icIcon]="icEdit" class="mr-3" matPrefix></mat-icon>
+    <h2 *ngIf="form.get('id').value" class="headline m-0" fxFlex="auto">Marca: {{ form.get('cdMarca').value }}</h2>
+    <h2 *ngIf="!form.get('id').value" class="headline m-0" fxFlex="auto">Nova Marca de Produto</h2>
+
+    <button [matMenuTriggerFor]="settingsMenu" class="text-secondary" mat-icon-button type="button">
+      <mat-icon [icIcon]="icMoreVert"></mat-icon>
+    </button>
+
+    <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
+      <mat-icon [icIcon]="icClose"></mat-icon>
+    </button>
+  </div>
+
+  <mat-divider class="-mx-6 text-border"></mat-divider>
+
+  <mat-dialog-content fxLayout="column">
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="24px">
+      <mat-form-field class="mt-6" fxFlex>
+        <mat-label>Código</mat-label>
+        <input cdkFocusInitial formControlName="cdMarca" matInput [readonly]="form.get('id').value != null">
+
+        <mat-icon [icIcon]="icBallot" class="mr-3" matPrefix></mat-icon>
+      </mat-form-field>
+      <div class="mt-6 mr-10" fxFlex>
+        <mat-checkbox formControlName="stAtivo">Ativo</mat-checkbox>
+      </div>
+
+    </div>
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="24px">
+      <mat-form-field class="mt-6" fxFlex>
+        <mat-label>Descrição</mat-label>
+        <input cdkFocusInitial formControlName="dsMarca" matInput>
+      </mat-form-field>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close type="button">CANCELAR</button>
+    <button *ngIf="isCreateMode()" color="primary" mat-button type="submit">CRIAR</button>
+    <button *ngIf="isUpdateMode()" color="primary" mat-button type="submit">ATUALIZAR</button>
+  </mat-dialog-actions>
+</form>
+
+<mat-menu #settingsMenu="matMenu" xPosition="before" yPosition="below">
+  <button mat-menu-item>
+    <mat-icon [icIcon]="icPrint"></mat-icon>
+    <span>Print</span>
+  </button>
+
+  <button mat-menu-item>
+    <mat-icon [icIcon]="icDownload"></mat-icon>
+    <span>Export</span>
+  </button>
+
+  <button mat-menu-item>
+    <mat-icon [icIcon]="icDelete"></mat-icon>
+    <span>Delete</span>
+  </button>
+</mat-menu>

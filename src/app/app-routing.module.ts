@@ -9,6 +9,30 @@ const childrenRoutes: VexRoutes = [
     path: 'grupo-produto',
     loadChildren: () => import('./grupo-produto/grupo-produto.module').then(m => m.GrupoProdutoModule),
   },
+  {
+    path: 'pais',
+    loadChildren: () => import('./pais/pais.module').then(m => m.PaisModule),
+  },
+  {
+    path: 'estado',
+    loadChildren: () => import('./estado/estado.module').then(m => m.EstadoModule),
+  },
+  {
+    path: 'municipio',
+    loadChildren: () => import('./municipio/municipio.module').then(m => m.MunicipioModule),
+  },
+  {
+    path: 'marca',
+    loadChildren: () => import('./marca/marca.module').then(m => m.MarcaModule),
+  },
+  {
+    path: 'unidade-medida',
+    loadChildren: () => import('./unidade-medida/unidade-medida.module').then(m => m.UnidadeMedidaModule),
+  },
+  {
+    path: 'sub-grupo-produto',
+    loadChildren: () => import('./sub-grupo-produto/sub-grupo-produto.module').then(m => m.SubGrupoProdutoModule),
+  },
 ];
 const routes: Routes = [
   {
