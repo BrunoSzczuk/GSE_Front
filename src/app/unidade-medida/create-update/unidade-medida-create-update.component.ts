@@ -41,10 +41,10 @@ export class UnidadeMedidaCreateUpdateComponent extends BasicCrudCreateUpdateRes
   icPhone = icPhone;
 
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
-    private service: UnidadeMedidaService,
-    private dialogRef: MatDialogRef<UnidadeMedidaCreateUpdateComponent>,
+    service: UnidadeMedidaService,
+    dialogRef: MatDialogRef<UnidadeMedidaCreateUpdateComponent>,
     private fb: FormBuilder,
-    private snackBar: MatSnackBar) {
+    snackBar: MatSnackBar) {
     super(defaults, service, snackBar, dialogRef);
   }
 

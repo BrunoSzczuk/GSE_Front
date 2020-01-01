@@ -48,12 +48,12 @@ export class SubGrupoProdutoCreateUpdateComponent extends BasicCrudCreateUpdateR
   filials: Filial[];
   grupoProdutos: GrupoProduto[];
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
-    private service: SubGrupoProdutoService,
+    service: SubGrupoProdutoService,
     private filialService: FilialService,
     private grupoProdutoService: GrupoProdutoService,
-    private dialogRef: MatDialogRef<SubGrupoProdutoCreateUpdateComponent>,
+    dialogRef: MatDialogRef<SubGrupoProdutoCreateUpdateComponent>,
     private fb: FormBuilder,
-    private snackBar: MatSnackBar) {
+    snackBar: MatSnackBar) {
     super(defaults, service, snackBar, dialogRef);
   }
 
