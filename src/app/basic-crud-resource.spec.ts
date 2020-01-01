@@ -6,7 +6,7 @@ describe('BasicCrudResourceService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: BasicCrudResource = TestBed.get(BasicCrudResource);
+    const service: BasicCrudResource<any> = TestBed.get(BasicCrudResource);
     expect(service).toBeTruthy();
   });
 });

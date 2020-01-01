@@ -25,18 +25,7 @@ import { EstadoService } from '../shared/estado.service';
     stagger80ms
   ]
 })
-export class EstadoComponent extends BasicCrudResource<EstadoService> implements OnInit, AfterViewInit, OnDestroy {
-
-  @Input()
-  columns: TableColumn<Estado>[] = [
-    { label: 'Checkbox', property: 'checkbox', type: 'checkbox', visible: true },
-    { label: 'Código', property: 'id', type: 'text', visible: true },
-    { label: 'Nome', property: 'nmEstado', type: 'text', visible: true },
-    { label: 'Cód. IBGE', property: 'cdIbge', type: 'text', visible: true },
-    { label: 'Sigla', property: 'sgEstado', type: 'text', visible: true },
-    { label: 'País', property: 'pais', type: 'text', visible: true },
-    { label: 'Ação', property: 'actions', type: 'button', visible: true }
-  ];
+export class EstadoComponent extends BasicCrudResource<EstadoService> {
   icEdit = icEdit;
   icSearch = icSearch;
   icDelete = icDelete;
@@ -46,41 +35,15 @@ export class EstadoComponent extends BasicCrudResource<EstadoService> implements
   icFolder = icFolder;
 
 
-  constructor(private dialog: MatDialog, service: EstadoService,  snackBar: MatSnackBar) {
-    super(service, snackBar);
+  constructor(dialog: MatDialog, service: EstadoService, snackBar: MatSnackBar) {
+    super(service, snackBar, dialog, EstadoCreateUpdateComponent, [
+      { label: 'Checkbox', property: 'checkbox', type: 'checkbox', visible: true },
+      { label: 'Código', property: 'id', type: 'text', visible: true },
+      { label: 'Nome', property: 'nmEstado', type: 'text', visible: true },
+      { label: 'Cód. IBGE', property: 'cdIbge', type: 'text', visible: true },
+      { label: 'Sigla', property: 'sgEstado', type: 'text', visible: true },
+      { label: 'País', property: 'pais', type: 'text', visible: true },
+      { label: 'Ação', property: 'actions', type: 'button', visible: true }
+    ]);
   }
-
-  get visibleColumns() {
-    return this.columns.filter(column => column.visible).map(column => column.property);
-  }
-
-  ngOnInit() {
-    this.dataSource = new MatTableDataSource();
-    this.getData();
-    this.searchCtrl.valueChanges.pipe(
-      untilDestroyed(this)
-    ).subscribe(value => this.getData(value));
-  }
-
-  ngAfterViewInit() {
-  }
-
-  createEstado() {
-    this.dialog.open(EstadoCreateUpdateComponent).afterClosed()
-      .subscribe((customer: Estado) => {
-        this.getData();
-      });
-  }
-
-  updateEstado(customer: Estado) {
-    this.dialog.open(EstadoCreateUpdateComponent, {
-      data: customer
-    }).afterClosed().subscribe(updatedEstado => {
-      this.getData();
-    });
-  }
-
-  ngOnDestroy() {
-  }
-
 }

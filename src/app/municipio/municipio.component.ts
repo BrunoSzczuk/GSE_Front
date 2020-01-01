@@ -25,17 +25,8 @@ import { fadeInUp400ms } from 'src/@vex/animations/fade-in-up.animation';
     stagger80ms
   ]
 })
-export class MunicipioComponent extends BasicCrudResource<MunicipioService> implements OnInit, AfterViewInit, OnDestroy {
+export class MunicipioComponent extends BasicCrudResource<MunicipioService> {
 
-  @Input()
-  columns: TableColumn<Municipio>[] = [
-    { label: 'Checkbox', property: 'checkbox', type: 'checkbox', visible: true },
-    { label: 'Código', property: 'id', type: 'text', visible: true },
-    { label: 'Nome', property: 'nmMunicipio', type: 'text', visible: true },
-    { label: 'Cód. UF IBGE', property: 'cdUfibge', type: 'text', visible: true },
-    { label: 'Estado', property: 'estado', type: 'text', visible: true },
-    { label: 'Ação', property: 'actions', type: 'button', visible: true }
-  ];
   icEdit = icEdit;
   icSearch = icSearch;
   icDelete = icDelete;
@@ -45,42 +36,15 @@ export class MunicipioComponent extends BasicCrudResource<MunicipioService> impl
   icFolder = icFolder;
 
 
-  constructor(private dialog: MatDialog, service: MunicipioService, snackBar: MatSnackBar) {
-    super(service, snackBar);
+  constructor(dialog: MatDialog, service: MunicipioService, snackBar: MatSnackBar) {
+    super(service, snackBar, dialog, MunicipioCreateUpdateComponent,
+      [
+        { label: 'Checkbox', property: 'checkbox', type: 'checkbox', visible: true },
+        { label: 'Código', property: 'id', type: 'text', visible: true },
+        { label: 'Nome', property: 'nmMunicipio', type: 'text', visible: true },
+        { label: 'Cód. UF IBGE', property: 'cdUfibge', type: 'text', visible: true },
+        { label: 'Estado', property: 'estado', type: 'text', visible: true },
+        { label: 'Ação', property: 'actions', type: 'button', visible: true }
+      ]);
   }
-
-  get visibleColumns() {
-    return this.columns.filter(column => column.visible).map(column => column.property);
-  }
-
-  ngOnInit() {
-    this.dataSource = new MatTableDataSource();
-    this.getData();
-    this.searchCtrl.valueChanges.pipe(
-      untilDestroyed(this)
-    ).subscribe(value => this.getData(value));
-  }
-
-  ngAfterViewInit() {
-  }
-
-  createMunicipio() {
-    this.dialog.open(MunicipioCreateUpdateComponent).afterClosed()
-      .subscribe((customer: Municipio) => {
-        this.getData();
-      });
-  }
-
-  updateMunicipio(customer: Municipio) {
-    this.dialog.open(MunicipioCreateUpdateComponent, {
-      data: customer
-    }).afterClosed().subscribe(updatedMunicipio => {
-      this.getData();
-    });
-  }
-
-  ngOnDestroy() {
-  }
-
 }
-

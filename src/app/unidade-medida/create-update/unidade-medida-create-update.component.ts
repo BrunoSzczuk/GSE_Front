@@ -15,13 +15,14 @@ import icPrint from '@iconify/icons-ic/twotone-print';
 import { UnidadeMedida } from '../model/unidade-medida';
 import { MatSnackBar } from '@angular/material';
 import { UnidadeMedidaService } from 'src/app/shared/unidade-medida.service';
+import { BasicCrudCreateUpdateResource } from 'src/app/basic-crud-create-update-resource';
 
 @Component({
   selector: 'vex-unidade-medida-create-update',
   templateUrl: './unidade-medida-create-update.component.html',
   styleUrls: ['./unidade-medida-create-update.component.scss']
 })
-export class UnidadeMedidaCreateUpdateComponent implements OnInit {
+export class UnidadeMedidaCreateUpdateComponent extends BasicCrudCreateUpdateResource<UnidadeMedidaService> {
 
   form: FormGroup;
   mode: 'create' | 'update' = 'create';
@@ -44,65 +45,16 @@ export class UnidadeMedidaCreateUpdateComponent implements OnInit {
     private dialogRef: MatDialogRef<UnidadeMedidaCreateUpdateComponent>,
     private fb: FormBuilder,
     private snackBar: MatSnackBar) {
+    super(defaults, service, snackBar, dialogRef);
   }
 
   ngOnInit() {
-    if (this.defaults) {
-      this.mode = 'update';
-    } else {
-      this.defaults = {} as UnidadeMedida;
-    }
+    super.ngOnInit();
     this.form = this.fb.group({
       id: [this.defaults.id || null],
       cdUnidadeMedida: this.defaults.cdUnidadeMedida || '',
       dsUnidadeMedida: [this.defaults.dsUnidadeMedida || ''],
       qtCasasDecimais: [this.defaults.qtCasasDecimais || ''],
     });
-  }
-
-  save() {
-    if (this.mode === 'create') {
-      this.createUnidadeMedida();
-    } else if (this.mode === 'update') {
-      this.updateUnidadeMedida();
-    }
-  }
-
-  createUnidadeMedida() {
-    const costumer = this.form.value;
-    this.service.save(costumer).then(data => {
-      this.dialogRef.close(data);
-      this.openSnackBar("Salvo com sucesso!", "Fechar", 2000);
-    }).catch(error => {
-      this.openSnackBar(error.error.errors[0].message, "Fechar", 7000);
-    });
-  }
-
-  updateUnidadeMedida() {
-    const costumer = this.form.value;
-    costumer.id = this.defaults.id;
-
-    this.service.update(costumer).then(data => {
-      this.dialogRef.close(data);
-      this.openSnackBar("Atualizado com sucesso!", "Fechar", 2000);
-    }).catch(error => {
-      this.openSnackBar(error.error.errors[0].message, "Fechar", 7000);
-    });
-  }
-
-
-  openSnackBar(message: string, action: string, duration: number) {
-    this.snackBar.open(message, action, {
-      duration: duration,
-    });
-  }
-
-
-  isCreateMode() {
-    return this.mode === 'create';
-  }
-
-  isUpdateMode() {
-    return this.mode === 'update';
   }
 }

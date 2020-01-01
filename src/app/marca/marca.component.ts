@@ -26,15 +26,7 @@ import { MarcaCreateUpdateComponent } from './create-update/marca-create-update.
     stagger80ms
   ]
 })
-export class MarcaComponent extends BasicCrudResource<MarcaService> implements OnInit, AfterViewInit, OnDestroy {
-
-  @Input()
-  columns: TableColumn<Marca>[] = [
-    { label: 'Checkbox', property: 'checkbox', type: 'checkbox', visible: true },
-    { label: 'Código', property: 'cdMarca', type: 'text', visible: true },
-    { label: 'Descrição', property: 'dsMarca', type: 'text', visible: true },
-    { label: 'Ação', property: 'actions', type: 'button', visible: true }
-  ];
+export class MarcaComponent extends BasicCrudResource<MarcaService>  {
   icEdit = icEdit;
   icSearch = icSearch;
   icDelete = icDelete;
@@ -42,43 +34,13 @@ export class MarcaComponent extends BasicCrudResource<MarcaService> implements O
   icFilterList = icFilterList;
   icMoreHoriz = icMoreHoriz;
   icFolder = icFolder;
-
-
-  constructor(private dialog: MatDialog, service: MarcaService, snackBar: MatSnackBar) {
-    super(service, snackBar);
-  }
-
-  get visibleColumns() {
-    return this.columns.filter(column => column.visible).map(column => column.property);
-  }
-
-  ngOnInit() {
-    this.dataSource = new MatTableDataSource();
-    this.getData();
-    this.searchCtrl.valueChanges.pipe(
-      untilDestroyed(this)
-    ).subscribe(value => this.getData(value));
-  }
-
-  ngAfterViewInit() {
-  }
-
-  createMarca() {
-    this.dialog.open(MarcaCreateUpdateComponent).afterClosed()
-      .subscribe((customer: Marca) => {
-        this.getData();
-      });
-  }
-
-  updateMarca(customer: Marca) {
-    this.dialog.open(MarcaCreateUpdateComponent, {
-      data: customer
-    }).afterClosed().subscribe(updatedMarca => {
-      this.getData();
-    });
-  }
-
-  ngOnDestroy() {
+  constructor(dialog: MatDialog, service: MarcaService, snackBar: MatSnackBar) {
+    super(service, snackBar, dialog, MarcaCreateUpdateComponent, [
+      { label: 'Checkbox', property: 'checkbox', type: 'checkbox', visible: true },
+      { label: 'Código', property: 'cdMarca', type: 'text', visible: true },
+      { label: 'Descrição', property: 'dsMarca', type: 'text', visible: true },
+      { label: 'Ação', property: 'actions', type: 'button', visible: true }
+    ]);
   }
 
 }

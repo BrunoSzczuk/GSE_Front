@@ -25,16 +25,7 @@ import { PaisCreateUpdateComponent } from './create-update/pais-create-update.co
     stagger80ms
   ]
 })
-export class PaisComponent extends BasicCrudResource<PaisService> implements OnInit, AfterViewInit, OnDestroy {
-
-  @Input()
-  columns: TableColumn<Pais>[] = [
-    { label: 'Checkbox', property: 'checkbox', type: 'checkbox', visible: true },
-    { label: 'Código', property: 'id', type: 'text', visible: true },
-    { label: 'Nome', property: 'nmPais', type: 'text', visible: true },
-    { label: 'Sigla', property: 'sgPais', type: 'text', visible: true },
-    { label: 'Ação', property: 'actions', type: 'button', visible: true }
-  ];
+export class PaisComponent extends BasicCrudResource<PaisService> {
   icEdit = icEdit;
   icSearch = icSearch;
   icDelete = icDelete;
@@ -43,43 +34,15 @@ export class PaisComponent extends BasicCrudResource<PaisService> implements OnI
   icMoreHoriz = icMoreHoriz;
   icFolder = icFolder;
 
-
-  constructor(private dialog: MatDialog, service: PaisService, snackBar: MatSnackBar) {
-    super(service, snackBar);
-  }
-
-  get visibleColumns() {
-    return this.columns.filter(column => column.visible).map(column => column.property);
-  }
-
-  ngOnInit() {
-    this.dataSource = new MatTableDataSource();
-    this.getData();
-    this.searchCtrl.valueChanges.pipe(
-      untilDestroyed(this)
-    ).subscribe(value => this.getData(value));
-  }
-
-  ngAfterViewInit() {
-  }
-
-  createPais() {
-    this.dialog.open(PaisCreateUpdateComponent).afterClosed()
-      .subscribe((customer: Pais) => {
-        this.getData();
-      });
-  }
-
-  updatePais(customer: Pais) {
-    this.dialog.open(PaisCreateUpdateComponent, {
-      data: customer
-    }).afterClosed().subscribe(updatedPais => {
-      this.getData();
-    });
-  }
-
-  ngOnDestroy() {
+  constructor(dialog: MatDialog, service: PaisService, snackBar: MatSnackBar) {
+    super(service, snackBar, dialog, PaisCreateUpdateComponent,
+      [
+        { label: 'Checkbox', property: 'checkbox', type: 'checkbox', visible: true },
+        { label: 'Código', property: 'id', type: 'text', visible: true },
+        { label: 'Nome', property: 'nmPais', type: 'text', visible: true },
+        { label: 'Sigla', property: 'sgPais', type: 'text', visible: true },
+        { label: 'Ação', property: 'actions', type: 'button', visible: true }
+      ]);
   }
 
 }
-

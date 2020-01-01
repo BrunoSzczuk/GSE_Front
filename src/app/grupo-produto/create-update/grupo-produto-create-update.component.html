@@ -34,6 +34,16 @@
         <input cdkFocusInitial formControlName="dsGrupo" matInput>
       </mat-form-field>
     </div>
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="24px">
+      <mat-form-field class="mt-4" fxFlex>
+        <mat-label>Filial</mat-label>
+        <mat-select formControlName="filial">
+          <mat-option *ngFor="let filial of filials" [value]="filial">
+            {{filial.cdFilial}} - {{filial.nmFantasia}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
   </mat-dialog-content>
 
   <mat-dialog-actions align="end">

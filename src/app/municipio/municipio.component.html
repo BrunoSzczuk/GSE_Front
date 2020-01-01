@@ -42,7 +42,7 @@
                     <mat-icon [icIcon]="icFilterList"></mat-icon>
                 </button>
 
-                <button (click)="createMunicipio()" class="ml-4" color="primary" fxFlex="none" mat-mini-fab
+                <button (click)="create()" class="ml-4" color="primary" fxFlex="none" mat-mini-fab
                     matTooltip="Adicionar" type="button">
                     <mat-icon [icIcon]="icAdd"></mat-icon>
                 </button>
@@ -89,7 +89,7 @@
                 </ng-container>
 
                 <tr *matHeaderRowDef="visibleColumns" mat-header-row></tr>
-                <tr (click)="updateMunicipio(row)" *matRowDef="let row; columns: visibleColumns;" @fadeInUp
+                <tr (click)="update(row)" *matRowDef="let row; columns: visibleColumns;" @fadeInUp
                     class="hover:bg-hover trans-ease-out cursor-pointer" mat-row></tr>
             </table>
 
@@ -113,7 +113,7 @@
 
 <mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
     <ng-template let-customer="customer" matMenuContent>
-        <button (click)="updateMunicipio(customer)" mat-menu-item>
+        <button (click)="update(customer)" mat-menu-item>
             <mat-icon [icIcon]="icEdit"></mat-icon>
             <span>Modify</span>
         </button>

@@ -14,13 +14,15 @@ import icPhone from '@iconify/icons-ic/twotone-phone';
 import icPrint from '@iconify/icons-ic/twotone-print';
 import { Pais } from '../model/pais';
 import { PaisService } from 'src/app/shared/pais.service';
+import { BasicCrudCreateUpdateResource } from 'src/app/basic-crud-create-update-resource';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'vex-pais-create-update',
   templateUrl: './pais-create-update.component.html',
   styleUrls: ['./pais-create-update.component.scss']
 })
-export class PaisCreateUpdateComponent implements OnInit {
+export class PaisCreateUpdateComponent extends BasicCrudCreateUpdateResource<PaisService> {
 
   form: FormGroup;
   mode: 'create' | 'update' = 'create';
@@ -39,17 +41,15 @@ export class PaisCreateUpdateComponent implements OnInit {
   icPhone = icPhone;
 
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
-    private service: PaisService,
-    private dialogRef: MatDialogRef<PaisCreateUpdateComponent>,
+    service: PaisService,
+    dialogRef: MatDialogRef<PaisCreateUpdateComponent>,
+    snackBar: MatSnackBar,
     private fb: FormBuilder) {
+    super(defaults, service, snackBar, dialogRef);
   }
 
   ngOnInit() {
-    if (this.defaults) {
-      this.mode = 'update';
-    } else {
-      this.defaults = {} as Pais;
-    }
+    super.ngOnInit();
     this.form = this.fb.group({
       id: [this.defaults.id || null],
       nmPais: this.defaults.nmPais || '',
@@ -57,31 +57,4 @@ export class PaisCreateUpdateComponent implements OnInit {
     });
   }
 
-  save() {
-    if (this.mode === 'create') {
-      this.createPais();
-    } else if (this.mode === 'update') {
-      this.updatePais();
-    }
-  }
-
-  createPais() {
-    const costumer = this.form.value;
-    this.service.save(costumer).then(data => this.dialogRef.close(data));
-  }
-
-  updatePais() {
-    const costumer = this.form.value;
-    costumer.id = this.defaults.id;
-
-    this.service.update(costumer).then(data => this.dialogRef.close(data));
-  }
-
-  isCreateMode() {
-    return this.mode === 'create';
-  }
-
-  isUpdateMode() {
-    return this.mode === 'update';
-  }
 }

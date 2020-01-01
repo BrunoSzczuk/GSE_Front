@@ -16,13 +16,15 @@ import { Estado } from '../model/estado';
 import { EstadoService } from 'src/app/shared/estado.service';
 import { Pais } from 'src/app/pais/model/pais';
 import { PaisService } from 'src/app/shared/pais.service';
+import { BasicCrudCreateUpdateResource } from 'src/app/basic-crud-create-update-resource';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'vex-estado-create-update',
   templateUrl: './estado-create-update.component.html',
   styleUrls: ['./estado-create-update.component.scss']
 })
-export class EstadoCreateUpdateComponent implements OnInit {
+export class EstadoCreateUpdateComponent extends BasicCrudCreateUpdateResource<EstadoService> {
 
   form: FormGroup;
   mode: 'create' | 'update' = 'create';
@@ -40,54 +42,26 @@ export class EstadoCreateUpdateComponent implements OnInit {
   icEditLocation = icEditLocation;
   icPhone = icPhone;
   paises: Pais[];
+
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
-    private service: EstadoService,
+    service: EstadoService,
     private paisService: PaisService,
-    private dialogRef: MatDialogRef<EstadoCreateUpdateComponent>,
+    dialogRef: MatDialogRef<EstadoCreateUpdateComponent>,
+    snackBar: MatSnackBar,
     private fb: FormBuilder) {
+    super(defaults, service, snackBar, dialogRef);
   }
 
   ngOnInit() {
-    if (this.defaults) {
-      this.mode = 'update';
-    } else {
-      this.defaults = {} as Estado;
-    }
-    this.paisService.findAll().then(data => this.paises  = data.content);
+    super.ngOnInit();
+    this.paisService.findAll().then(data => this.paises = data.content);
     this.form = this.fb.group({
       id: [this.defaults.id || null],
       nmEstado: this.defaults.nmEstado || '',
       sgEstado: [this.defaults.sgEstado || ''],
       cdIbge: [this.defaults.cdIbge || ''],
       pais: [this.defaults.pais || null],
-    }); 
+    });
   }
 
-  save() {
-    if (this.mode === 'create') {
-      this.createEstado();
-    } else if (this.mode === 'update') {
-      this.updateEstado();
-    }
-  }
-
-  createEstado() {
-    const costumer = this.form.value;
-    this.service.save(costumer).then(data => this.dialogRef.close(data));
-  }
-
-  updateEstado() {
-    const costumer = this.form.value;
-    costumer.id = this.defaults.id;
-
-    this.service.update(costumer).then(data => this.dialogRef.close(data));
-  }
-
-  isCreateMode() {
-    return this.mode === 'create';
-  }
-
-  isUpdateMode() {
-    return this.mode === 'update';
-  }
 }

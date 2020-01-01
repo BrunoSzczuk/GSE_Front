@@ -26,16 +26,8 @@ import { fadeInUp400ms } from 'src/@vex/animations/fade-in-up.animation';
     stagger80ms
   ]
 })
-export class UnidadeMedidaComponent extends BasicCrudResource<UnidadeMedidaService> implements OnInit, AfterViewInit, OnDestroy {
+export class UnidadeMedidaComponent extends BasicCrudResource<UnidadeMedidaService> {
 
-  @Input()
-  columns: TableColumn<UnidadeMedida>[] = [
-    { label: 'Checkbox', property: 'checkbox', type: 'checkbox', visible: true },
-    { label: 'Código', property: 'cdUnidadeMedida', type: 'text', visible: true },
-    { label: 'Descrição', property: 'dsUnidadeMedida', type: 'text', visible: true },
-    { label: 'Casas Decimais', property: 'qtCasasDecimais', type: 'text', visible: true },
-    { label: 'Ação', property: 'actions', type: 'button', visible: true }
-  ];
   icEdit = icEdit;
   icSearch = icSearch;
   icDelete = icDelete;
@@ -45,41 +37,15 @@ export class UnidadeMedidaComponent extends BasicCrudResource<UnidadeMedidaServi
   icFolder = icFolder;
 
 
-  constructor(private dialog: MatDialog, service: UnidadeMedidaService, snackBar: MatSnackBar) {
-    super(service, snackBar);
-  }
-
-  get visibleColumns() {
-    return this.columns.filter(column => column.visible).map(column => column.property);
-  }
-
-  ngOnInit() {
-    this.dataSource = new MatTableDataSource();
-    this.getData();
-    this.searchCtrl.valueChanges.pipe(
-      untilDestroyed(this)
-    ).subscribe(value => this.getData(value));
-  }
-
-  ngAfterViewInit() {
-  }
-
-  createUnidadeMedida() {
-    this.dialog.open(UnidadeMedidaCreateUpdateComponent).afterClosed()
-      .subscribe((customer: UnidadeMedida) => {
-        this.getData();
-      });
-  }
-
-  updateUnidadeMedida(customer: UnidadeMedida) {
-    this.dialog.open(UnidadeMedidaCreateUpdateComponent, {
-      data: customer
-    }).afterClosed().subscribe(updatedUnidadeMedida => {
-      this.getData();
-    });
-  }
-
-  ngOnDestroy() {
+  constructor(dialog: MatDialog, service: UnidadeMedidaService, snackBar: MatSnackBar) {
+    super(service, snackBar, dialog, UnidadeMedidaCreateUpdateComponent,
+      [
+        { label: 'Checkbox', property: 'checkbox', type: 'checkbox', visible: true },
+        { label: 'Código', property: 'cdUnidadeMedida', type: 'text', visible: true },
+        { label: 'Descrição', property: 'dsUnidadeMedida', type: 'text', visible: true },
+        { label: 'Casas Decimais', property: 'qtCasasDecimais', type: 'text', visible: true },
+        { label: 'Ação', property: 'actions', type: 'button', visible: true }
+      ]);
   }
 
 }

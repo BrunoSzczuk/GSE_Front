@@ -14,13 +14,18 @@ import icPhone from '@iconify/icons-ic/twotone-phone';
 import icPrint from '@iconify/icons-ic/twotone-print';
 import { GrupoProduto } from '../model/grupo-produto';
 import { GrupoProdutoService } from 'src/app/shared/grupo-produto.service';
+import { GrupoProdutoCreateUpdateModule } from './grupo-produto-create-update.module';
+import { MatSnackBar } from '@angular/material';
+import { BasicCrudCreateUpdateResource } from 'src/app/basic-crud-create-update-resource';
+import { FilialService } from 'src/app/shared/filial.service';
+import { Filial } from 'src/app/filial/model/filial';
 
 @Component({
   selector: 'vex-grupo-produto-create-update',
   templateUrl: './grupo-produto-create-update.component.html',
   styleUrls: ['./grupo-produto-create-update.component.scss']
 })
-export class GrupoProdutoCreateUpdateComponent implements OnInit {
+export class GrupoProdutoCreateUpdateComponent extends BasicCrudCreateUpdateResource<GrupoProdutoService> {
 
   form: FormGroup;
   mode: 'create' | 'update' = 'create';
@@ -37,19 +42,19 @@ export class GrupoProdutoCreateUpdateComponent implements OnInit {
   icLocationCity = icLocationCity;
   icEditLocation = icEditLocation;
   icPhone = icPhone;
-
+  filials: Filial[];
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
-    private service: GrupoProdutoService,
-    private dialogRef: MatDialogRef<GrupoProdutoCreateUpdateComponent>,
+    service: GrupoProdutoService,
+    private filialService: FilialService,
+    dialogRef: MatDialogRef<GrupoProdutoCreateUpdateComponent>,
+    snackBar: MatSnackBar,
     private fb: FormBuilder) {
+    super(defaults, service, snackBar, dialogRef);
   }
 
   ngOnInit() {
-    if (this.defaults) {
-      this.mode = 'update';
-    } else {
-      this.defaults = {} as GrupoProduto;
-    }
+    super.ngOnInit();
+    this.filialService.findAll().then(data => this.filials = data.content);
     this.form = this.fb.group({
       id: [this.defaults.id || null],
       cdGrupo: this.defaults.cdGrupo || '',
@@ -57,33 +62,5 @@ export class GrupoProdutoCreateUpdateComponent implements OnInit {
       stAtivo: [this.defaults.stAtivo === undefined ? true : this.defaults.stAtivo],
       filial: [this.defaults.filial || null],
     });
-  }
-
-  save() {
-    if (this.mode === 'create') {
-      this.createGrupoProduto();
-    } else if (this.mode === 'update') {
-      this.updateGrupoProduto();
-    }
-  }
-
-  createGrupoProduto() {
-    const costumer = this.form.value;
-    this.service.save(costumer).then(data => this.dialogRef.close(data));
-  }
-
-  updateGrupoProduto() {
-    const costumer = this.form.value;
-    costumer.id = this.defaults.id;
-
-    this.service.update(costumer).then(data => this.dialogRef.close(data));
-  }
-
-  isCreateMode() {
-    return this.mode === 'create';
-  }
-
-  isUpdateMode() {
-    return this.mode === 'update';
   }
 }

@@ -9,11 +9,7 @@ import { BasicCrudService } from '../basic-crud.service';
   providedIn: 'root'
 })
 export class GrupoProdutoService extends BasicCrudService<GrupoProduto> {
-  constructor(http: HttpClient, private filialService: FilialService) {
+  constructor(http: HttpClient) {
     super(http, 'grupoProdutos/');
-  }
-  async save(grupoProduto: GrupoProduto): Promise<any> {
-    grupoProduto.filial = this.filialService.getFilialLogada();
-    super.save(grupoProduto);
   }
 }

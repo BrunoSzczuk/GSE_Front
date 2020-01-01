@@ -15,13 +15,15 @@ import icPrint from '@iconify/icons-ic/twotone-print';
 import { Marca } from '../model/marca';
 import { MarcaService } from 'src/app/shared/marca.service';
 import { MatSnackBar } from '@angular/material';
+import { BasicCrudCreateUpdateResource } from 'src/app/basic-crud-create-update-resource';
+import { GrupoProdutoCreateUpdateComponent } from 'src/app/grupo-produto/create-update/grupo-produto-create-update.component';
 
 @Component({
   selector: 'vex-marca-create-update',
   templateUrl: './marca-create-update.component.html',
   styleUrls: ['./marca-create-update.component.scss']
 })
-export class MarcaCreateUpdateComponent implements OnInit {
+export class MarcaCreateUpdateComponent extends BasicCrudCreateUpdateResource<MarcaService> {
 
   form: FormGroup;
   mode: 'create' | 'update' = 'create';
@@ -40,18 +42,15 @@ export class MarcaCreateUpdateComponent implements OnInit {
   icPhone = icPhone;
 
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
-    private service: MarcaService,
-    private dialogRef: MatDialogRef<MarcaCreateUpdateComponent>,
-    private fb: FormBuilder,
-    private snackBar: MatSnackBar) {
+    service: MarcaService,
+    dialogRef: MatDialogRef<GrupoProdutoCreateUpdateComponent>,
+    snackBar: MatSnackBar,
+    private fb: FormBuilder) {
+    super(defaults, service, snackBar, dialogRef);
   }
 
   ngOnInit() {
-    if (this.defaults) {
-      this.mode = 'update';
-    } else {
-      this.defaults = {} as Marca;
-    }
+    super.ngOnInit();
     this.form = this.fb.group({
       id: [this.defaults.id || null],
       cdMarca: this.defaults.cdMarca || '',
@@ -60,49 +59,4 @@ export class MarcaCreateUpdateComponent implements OnInit {
     });
   }
 
-  save() {
-    if (this.mode === 'create') {
-      this.createMarca();
-    } else if (this.mode === 'update') {
-      this.updateMarca();
-    }
-  }
-
-  createMarca() {
-    const costumer = this.form.value;
-    this.service.save(costumer).then(data => {
-      this.dialogRef.close(data);
-      this.openSnackBar("Salvo com sucesso!", "Fechar", 2000);
-    }).catch(error => {
-      this.openSnackBar(error.error.errors[0].message, "Fechar", 7000);
-    });
-  }
-
-  updateMarca() {
-    const costumer = this.form.value;
-    costumer.id = this.defaults.id;
-
-    this.service.update(costumer).then(data => {
-      this.dialogRef.close(data);
-      this.openSnackBar("Atualizado com sucesso!", "Fechar", 2000);
-    }).catch(error => {
-      this.openSnackBar(error.error.errors[0].message, "Fechar", 7000);
-    });
-  }
-
-
-  openSnackBar(message: string, action: string, duration: number) {
-    this.snackBar.open(message, action, {
-      duration: duration,
-    });
-  }
-
-
-  isCreateMode() {
-    return this.mode === 'create';
-  }
-
-  isUpdateMode() {
-    return this.mode === 'update';
-  }
 }

@@ -21,13 +21,14 @@ import { GrupoProdutoService } from 'src/app/shared/grupo-produto.service';
 import { Filial } from 'src/app/filial/model/filial';
 import { GrupoProduto } from 'src/app/grupo-produto/model/grupo-produto';
 import { MatSnackBar } from '@angular/material';
+import { BasicCrudCreateUpdateResource } from 'src/app/basic-crud-create-update-resource';
 
 @Component({
   selector: 'vex-sub-grupo-produto-create-update',
   templateUrl: './sub-grupo-produto-create-update.component.html',
   styleUrls: ['./sub-grupo-produto-create-update.component.scss']
 })
-export class SubGrupoProdutoCreateUpdateComponent implements OnInit {
+export class SubGrupoProdutoCreateUpdateComponent extends BasicCrudCreateUpdateResource<SubGrupoProdutoService> {
 
   form: FormGroup;
   mode: 'create' | 'update' = 'create';
@@ -53,14 +54,11 @@ export class SubGrupoProdutoCreateUpdateComponent implements OnInit {
     private dialogRef: MatDialogRef<SubGrupoProdutoCreateUpdateComponent>,
     private fb: FormBuilder,
     private snackBar: MatSnackBar) {
+    super(defaults, service, snackBar, dialogRef);
   }
 
   ngOnInit() {
-    if (this.defaults) {
-      this.mode = 'update';
-    } else {
-      this.defaults = {} as SubGrupoProduto;
-    }
+    super.ngOnInit();
     this.filialService.findAll().then(data => this.filials = data.content);
     this.grupoProdutoService.findAll().then(data => this.grupoProdutos = data.content);
     this.form = this.fb.group({
@@ -72,47 +70,4 @@ export class SubGrupoProdutoCreateUpdateComponent implements OnInit {
     });
   }
 
-  save() {
-    if (this.mode === 'create') {
-      this.createSubGrupoProduto();
-    } else if (this.mode === 'update') {
-      this.updateSubGrupoProduto();
-    }
-  }
-
-  createSubGrupoProduto() {
-    const costumer = this.form.value;
-    this.service.save(costumer).then(data => {
-      this.dialogRef.close(data);
-      this.openSnackBar("Salvo com sucesso!", "Fechar", 2000);
-    }).catch(error => {
-      this.openSnackBar(error.error.errors[0].message, "Fechar", 7000);
-    });
-  }
-
-  openSnackBar(message: string, action: string, duration: number) {
-    this.snackBar.open(message, action, {
-      duration: duration,
-    });
-  }
-
-  updateSubGrupoProduto() {
-    const costumer = this.form.value;
-    costumer.id = this.defaults.id;
-    this.service.update(costumer).then(data => {
-      this.dialogRef.close(data);
-      this.openSnackBar("Atualizado com sucesso!", "Fechar", 2000);
-    }).catch(error => {
-      this.openSnackBar(error.error.errors[0].message, "Fechar", 7000);
-    });
-  }
-
-
-  isCreateMode() {
-    return this.mode === 'create';
-  }
-
-  isUpdateMode() {
-    return this.mode === 'update';
-  }
 }

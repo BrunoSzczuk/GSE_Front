@@ -19,6 +19,7 @@ import { GrupoProdutoService } from '../shared/grupo-produto.service';
 import { fadeInUp400ms } from 'src/@vex/animations/fade-in-up.animation';
 import { stagger80ms } from 'src/@vex/animations/stagger.animation';
 import { BasicCrudResource } from '../basic-crud-resource';
+import { Filial } from '../filial/model/filial';
 
 @Component({
   selector: 'vex-grupo-produto',
@@ -29,15 +30,7 @@ import { BasicCrudResource } from '../basic-crud-resource';
     stagger80ms
   ]
 })
-export class GrupoProdutoComponent extends BasicCrudResource<GrupoProdutoService> implements OnInit, AfterViewInit, OnDestroy {
-
-  @Input()
-  columns: TableColumn<GrupoProduto>[] = [
-    { label: 'Checkbox', property: 'checkbox', type: 'checkbox', visible: true },
-    { label: 'Código', property: 'cdGrupo', type: 'text', visible: true },
-    { label: 'Descrição', property: 'dsGrupo', type: 'text', visible: true },
-    { label: 'Ação', property: 'actions', type: 'button', visible: true }
-  ];
+export class GrupoProdutoComponent extends BasicCrudResource<GrupoProdutoService>{
   icEdit = icEdit;
   icSearch = icSearch;
   icDelete = icDelete;
@@ -45,43 +38,13 @@ export class GrupoProdutoComponent extends BasicCrudResource<GrupoProdutoService
   icFilterList = icFilterList;
   icMoreHoriz = icMoreHoriz;
   icFolder = icFolder;
-
-
-  constructor(private dialog: MatDialog, service: GrupoProdutoService,  snackBar: MatSnackBar) {
-    super(service, snackBar);
-  }
-
-  get visibleColumns() {
-    return this.columns.filter(column => column.visible).map(column => column.property);
-  }
-
-  ngOnInit() {
-    this.dataSource = new MatTableDataSource();
-    this.getData();
-    this.searchCtrl.valueChanges.pipe(
-      untilDestroyed(this)
-    ).subscribe(value => this.getData(value));
-  }
-
-  ngAfterViewInit() {
-  }
-
-  createGrupoProduto() {
-    this.dialog.open(GrupoProdutoCreateUpdateComponent).afterClosed()
-      .subscribe((customer: GrupoProduto) => {
-        this.getData();
-      });
-  }
-
-  updateGrupoProduto(customer: GrupoProduto) {
-    this.dialog.open(GrupoProdutoCreateUpdateComponent, {
-      data: customer
-    }).afterClosed().subscribe(updatedGrupoProduto => {
-      this.getData();
-    });
-  }
-
-  ngOnDestroy() {
+  constructor(dialog: MatDialog, service: GrupoProdutoService, snackBar: MatSnackBar) {
+    super(service, snackBar, dialog, GrupoProdutoCreateUpdateComponent, [
+      { label: 'Checkbox', property: 'checkbox', type: 'checkbox', visible: true },
+      { label: 'Código', property: 'cdGrupo', type: 'text', visible: true },
+      { label: 'Descrição', property: 'dsGrupo', type: 'text', visible: true },
+      { label: 'Ação', property: 'actions', type: 'button', visible: true }
+    ]);
   }
 
 }

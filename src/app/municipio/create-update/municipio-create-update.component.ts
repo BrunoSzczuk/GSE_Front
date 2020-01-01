@@ -18,13 +18,16 @@ import { Pais } from 'src/app/pais/model/pais';
 import { PaisService } from 'src/app/shared/pais.service';
 import { EstadoService } from 'src/app/shared/estado.service';
 import { Estado } from 'src/app/estado/model/estado';
+import { BasicCrudCreateUpdateResource } from 'src/app/basic-crud-create-update-resource';
+import { MatSnackBar } from '@angular/material';
+import { EstadoCreateUpdateComponent } from 'src/app/estado/create-update/estado-create-update.component';
 
 @Component({
   selector: 'vex-municipio-create-update',
   templateUrl: './municipio-create-update.component.html',
   styleUrls: ['./municipio-create-update.component.scss']
 })
-export class MunicipioCreateUpdateComponent implements OnInit {
+export class MunicipioCreateUpdateComponent extends BasicCrudCreateUpdateResource<MunicipioService> {
 
   form: FormGroup;
   mode: 'create' | 'update' = 'create';
@@ -42,20 +45,19 @@ export class MunicipioCreateUpdateComponent implements OnInit {
   icEditLocation = icEditLocation;
   icPhone = icPhone;
   estados: Estado[];
+
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
-    private service: MunicipioService,
+    service: MunicipioService,
     private estadoService: EstadoService,
-    private dialogRef: MatDialogRef<MunicipioCreateUpdateComponent>,
+    dialogRef: MatDialogRef<EstadoCreateUpdateComponent>,
+    snackBar: MatSnackBar,
     private fb: FormBuilder) {
+    super(defaults, service, snackBar, dialogRef);
   }
 
   ngOnInit() {
-    if (this.defaults) {
-      this.mode = 'update';
-    } else {
-      this.defaults = {} as Municipio;
-    }
-    this.estadoService.findAll().then(data => this.estados  = data.content);
+    super.ngOnInit();
+    this.estadoService.findAll().then(data => this.estados = data.content);
     this.form = this.fb.group({
       id: [this.defaults.id || null],
       nmMunicipio: this.defaults.nmMunicipio || '',
@@ -64,31 +66,4 @@ export class MunicipioCreateUpdateComponent implements OnInit {
     });
   }
 
-  save() {
-    if (this.mode === 'create') {
-      this.createMunicipio();
-    } else if (this.mode === 'update') {
-      this.updateMunicipio();
-    }
-  }
-
-  createMunicipio() {
-    const costumer = this.form.value;
-    this.service.save(costumer).then(data => this.dialogRef.close(data));
-  }
-
-  updateMunicipio() {
-    const costumer = this.form.value;
-    costumer.id = this.defaults.id;
-
-    this.service.update(costumer).then(data => this.dialogRef.close(data));
-  }
-
-  isCreateMode() {
-    return this.mode === 'create';
-  }
-
-  isUpdateMode() {
-    return this.mode === 'update';
-  }
 }
