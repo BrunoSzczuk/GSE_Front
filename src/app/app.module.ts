@@ -10,6 +10,7 @@ import { LayoutModule } from 'src/@vex/layout/layout.module';
 import { MarcaComponent } from './marca/marca.component';
 import { UnidadeMedidaComponent } from './unidade-medida/unidade-medida.component';
 import { SubGrupoProdutoComponent } from './sub-grupo-produto/sub-grupo-produto.component';
+import { ProdutoComponent } from './produto/produto.component';
 
 @NgModule({
   declarations: [AppComponent],

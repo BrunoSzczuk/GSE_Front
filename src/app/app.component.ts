@@ -103,6 +103,11 @@ export class AppComponent {
             label: 'Sub Grupo de Produto',
             route: '/sub-grupo-produto',
           },
+          {
+            type: 'link',
+            label: 'Produto',
+            route: '/produto',
+          },
         ]
       },
     ];

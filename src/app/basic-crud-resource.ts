@@ -22,15 +22,12 @@ export class BasicCrudResource<SERVICE extends BasicCrudService<any>>
   dados: any[];
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
-  constructor(protected service: SERVICE, protected snackBar: MatSnackBar, protected dialog: MatDialog, CREATE_UPDATE_COMPONENT: ComponentType<any>, columns: TableColumn<any>[]) {
+  constructor(protected service: SERVICE, protected snackBar: MatSnackBar, protected dialog: MatDialog,
+    CREATE_UPDATE_COMPONENT: ComponentType<any>, columns: TableColumn<any>[]) {
     this.columns = columns;
     this.CREATE_UPDATE_COMPONENT = CREATE_UPDATE_COMPONENT;
   }
 
-  /**
-  * Example on how to get data and pass it to the table - usually you would want a dedicated service with a HTTP request for this
-  * We are simulating this request here.
-  */
   getData(filtro?: string) {
     this.service.findAll({ linesPerPage: this.pageSize, page: this.page, descricao: filtro }).then(data => {
       this.dados = data.content;

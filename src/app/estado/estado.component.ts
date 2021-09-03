@@ -42,7 +42,7 @@ export class EstadoComponent extends BasicCrudResource<EstadoService> {
       { label: 'Nome', property: 'nmEstado', type: 'text', visible: true },
       { label: 'Cód. IBGE', property: 'cdIbge', type: 'text', visible: true },
       { label: 'Sigla', property: 'sgEstado', type: 'text', visible: true },
-      { label: 'País', property: 'pais', type: 'text', visible: true },
+      { label: 'País', property: 'nmPais', type: 'text', visible: true },
       { label: 'Ação', property: 'actions', type: 'button', visible: true }
     ]);
   }

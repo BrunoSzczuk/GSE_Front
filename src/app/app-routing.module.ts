@@ -33,6 +33,10 @@ const childrenRoutes: VexRoutes = [
     path: 'sub-grupo-produto',
     loadChildren: () => import('./sub-grupo-produto/sub-grupo-produto.module').then(m => m.SubGrupoProdutoModule),
   },
+  {
+    path: 'produto',
+    loadChildren: () => import('./produto/produto.module').then(m => m.ProdutoModule),
+  },
 ];
 const routes: Routes = [
   {

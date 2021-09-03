@@ -6,4 +6,12 @@ export class Estado {
     cdIbge: string;
     sgEstado: string;
     pais: Pais;
+
+    get nmPais(): string {
+        console.log('vai retornar alguma coisa');
+        return this.pais ? this.pais.nmPais : '';
+    }
+
+    set nmPais(value) {
+    }
 }
